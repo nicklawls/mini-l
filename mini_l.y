@@ -65,27 +65,48 @@ input : Program {
       ;
 
 Program : PROGRAM IDENT SEMICOLON block END_PROGRAM {
-          // iterate over symbol table and generate init statements, save into buffer
-          // concat buffer with Program.code
+          // iterate over symbol table and generate init statements for temps
           
+          strcat($$.code, $4.code);
           char end[16];
           gen2(end, ":", "ENDLABEL");
           strcat($$.code, end); // concat declaration of endlabel
-          
-            if (verbose) {printf("Program -> program ident ; block endprogram\n");}
+            if (verbose) {
+              printf("Program -> program ident ; block endprogram\n");
+            }
           }
         ;
 
 block : decl_list BEGIN_PROGRAM stmt_list {
-          
+          strcpy($$.begin $1.begin);
+          strcpy($$.after, $3.after)
+          strcat($$.code, $1.code);
+          strcat($$.code, $3.code);
           if (verbose) {
             printf("block -> decl_list beginprogram stmt_list\n");
           }
         }
       ;
 
-decl_list : declaration SEMICOLON {if (verbose) {printf("decl_list -> declaration ;\n");}}
-          | declaration SEMICOLON decl_list {if (verbose) {printf("decl_list -> declaration ; decl_list\n");}}
+decl_list : declaration SEMICOLON {
+              strcpy($$.begin, $1.begin);
+              strcpy($$.after, $1.after);
+              strcpy($$.code, $1.code);
+              printf("decl_list -> declaration ;\n");
+              if (verbose) {
+                printf("%s\n\n", $$.code);
+              }
+            }
+          | declaration SEMICOLON decl_list {
+              strcpy($$.begin, $1.begin)
+              strcpy($$.after, $3.after)
+              strcat($$.code, $1.code);
+              strcat($$.code, $3.code);
+              if (verbose) {
+                printf("decl_list -> declaration ; decl_list\n");
+                printf("%s\n\n", $$.code);
+              }
+            }
           ;
 
 declaration : id_list COLON INTEGER {

@@ -28,13 +28,12 @@ int tmpcount = 0;
 int labelcount = 0;
 
 void newtemp(char* dst) {
+    
     do {
         tmpcount++;
         sprintf(dst, "t%i", tmpcount);
-        printf("\nNEWTEMP ATTEMPTED: %s\n", dst);   
-    } while(symtab_get(dst));
+    } while(symtab_get(dst)); // will repeat if user defined variable collides
     
-    printf("\nNEWTEMP APPROVED: %s\n", dst);
     symtab_put(dst, 0); // temps are always int
 }
 
