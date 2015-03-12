@@ -102,7 +102,7 @@ decl_list : declaration SEMICOLON {
           | declaration SEMICOLON decl_list {
               strcpy($$.begin, $1.begin);
               strcpy($$.after, $3.after);
-              strcat($$.code, $1.code);
+              strcpy($$.code, $1.code);
               strcat($$.code, $3.code);
               if (verbose) {
                 printf("decl_list -> declaration ; decl_list\n");
@@ -247,7 +247,7 @@ stmt_list : statement SEMICOLON {
           | statement SEMICOLON stmt_list {
               strcpy($$.begin,$1.begin);
               strcpy($$.after,$3.after);
-              strcat($$.code, $1.code);
+              strcpy($$.code, $1.code);
               strcat($$.code, $3.code);
 
               if (verbose) {
