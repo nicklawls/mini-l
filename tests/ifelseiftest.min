@@ -1,0 +1,25 @@
+## Requires 5 integer arguments, all of which are assumed to be < 100
+
+program mytest;
+
+  m, n, o : integer;
+
+beginprogram	## main program
+
+  read n;
+  if n >=100 then
+    write n;
+  elseif n<10
+    o := n-2;
+    write o;
+  elseif n<50
+    o := n-5;
+    write o;
+  else
+    m := n-1;
+    write m;
+  endif;
+
+write o;
+
+endprogram

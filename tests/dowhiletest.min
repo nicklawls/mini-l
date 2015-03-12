@@ -1,0 +1,20 @@
+## Requires 5 integer arguments, all of which are assumed to be < 100
+
+program mytest;
+
+  n, m : integer;
+
+beginprogram	## main program
+
+  read n;
+  m := n;
+  do
+  beginloop
+    write n;
+    n := (n+1);
+  endloop
+  while n-m<=5;
+
+write n;
+
+endprogram

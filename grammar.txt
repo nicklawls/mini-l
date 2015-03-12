@@ -1,0 +1,75 @@
+Terminals in all uppercase, productions in lowercase (with the exception of the "Program" nonterminal)
+
+term -> NUMBER
+term -> var
+term -> L_PAREN expression R_PAREN
+term -> SUB term
+
+var -> IDENT
+var -> IDENT L_BRACKET expression R_BRACKET
+
+expression -> multiplicative_expression
+expression -> expression ADD multiplicative_expression 
+expression -> expression SUB multiplicative_expression 
+
+multiplicative_expression -> term
+multiplicative_expression -> multiplicative_expression MULT term
+multiplicative_expression -> multiplicative_expression DIV term
+multiplicative_expression -> multiplicative_expression MOD term
+
+comp_exp -> expression EQ expression 
+comp_exp -> expression NEQ expression
+comp_exp -> expression LTE expression
+comp_exp -> expression GTE expression
+comp_exp -> expression LT expression 
+comp_exp -> expression GT expression 
+
+relation_exp -> comp_exp
+relation_exp -> TRUE 
+relation_exp -> FALSE 
+relation_exp -> L_PAREN bool_exp R_PAREN
+relation_exp -> NOT relation_exp 
+
+relation_and_exp -> relation_exp
+relation_and_exp -> relation_and_exp AND relation_exp
+
+bool_exp -> relation_and_exp
+bool_exp -> bool_exp OR relation_and_exp
+
+var_list -> var
+var_list -> var, var_list
+
+elif_list -> ELSEIF bool_exp stmt_list
+elif_list -> ELSEIF bool_exp stmt_list elif_list
+
+statement -> EXIT
+statement -> CONTINUE
+statement -> BREAK
+statement -> READ var_list
+statement -> WRITE var_list
+statement -> DO BEGINLOOP stmt_list ENDLOOP WHILE bool_exp
+statement -> WHILE bool_exp BEGINLOOP stmt_list ENDLOOP
+statement -> var ASSIGN expression
+statement -> var ASSIGN bool_exp QUESTION expression COLON expression
+statement -> IF bool_exp THEN stmt_list ENDIF
+statement -> IF bool_exp THEN stmt_list ELSE stmt_list ENDIF 
+statement -> IF bool_exp THEN stmt_list elif_list ENDIF
+statement -> IF bool_exp THEN stmt_list elif_list ELSE stmt_list ENDIF
+
+stmt_list -> statement SEMICOLON
+stmt_list -> statement SEMICOLON stmt_list
+
+id_list -> IDENT COMMA
+id_list -> IDENT COMMA id_list
+
+declaration -> id_list COLON INTEGER
+declaration -> id_list COLON ARRAY L_BRACKET NUMBER R_BRACKET OF INTEGER
+
+decl_list -> declaration SEMICOLON
+decl_list -> declaration SEMICOLON decl_list
+
+block -> decl_list BEGIN_PROGRAM stmt_list
+
+Program -> PROGRAM IDENT SEMICOLON block END_PROGRAM 
+
+input -> Program

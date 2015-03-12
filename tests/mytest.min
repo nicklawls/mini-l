@@ -1,0 +1,48 @@
+## Requires 5 integer arguments, all of which are assumed to be < 100
+
+program mytest;
+
+  n : integer;
+  i, j, k : integer;
+  x, y, z : integer;
+
+  t : array [100] of integer;
+
+beginprogram	## main program
+
+  read n,i,j,x,y;
+  
+  z:=0;
+  
+  if n>=100  then
+     write n;
+     exit;
+  endif;
+
+  if i<j and j<=n and i>=0 then
+     t[i] := i;
+     t[j] := j;
+     k := t[i];
+     t[i] := t[j];
+     t[j] := k;
+  else
+     while  x > y or false beginloop
+        k := (1+y - x)*n % 3 + x;
+        x := x - 10;
+        if x > y*3 then
+             continue;
+        endif;
+        write k;
+        
+     endloop;
+  endif;
+ 
+  write x,y,z;
+  
+  z := x+1 >= y*2 ? x+1 : y*2;
+
+  write x,y,z,i,j,t[i],t[j];
+
+##  write x,y,z;
+
+endprogram
