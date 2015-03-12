@@ -336,7 +336,7 @@ statement : EXIT {
                 int index = symtab_get($2.list[i]);
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  //exit(1);
+                  exit(1);
                 }
 
                 
@@ -368,7 +368,7 @@ statement : EXIT {
                 int index = symtab_get($2.list[i]);
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  //exit(1);
+                  exit(1);
                 }
 
                 
