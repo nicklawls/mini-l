@@ -194,6 +194,7 @@ elif_list : ELSEIF bool_exp stmt_list {
               gen2($$.code, ":", $$.begin);
               strcat($$.code, $2.code);
               char ifthen[64], elsethen[64], gotoend[64], end[64];
+              printf("STUFF HERE: %s\n", $3.begin);
               gen3(ifthen, "?:=", $3.begin, $2.place);
               strcat($$.code, ifthen);
               gen2(elsethen, ":=", $5.begin);
