@@ -33,6 +33,7 @@ void newtemp(char* dst) {
         sprintf(dst, "t%i", tmpcount);   
     };
     ++tmpcount; // do the next one for later
+    printf("\nNEWTEMP: %s\n", dst);
     symtab_put(dst, 0); // temps are always int
 }
 

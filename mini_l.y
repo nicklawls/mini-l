@@ -772,15 +772,8 @@ int main (const int argc, const char** argv) {
   
   symtab_init();
 
-  int i = 0;
-  char buff[34];
-  while (i < 10) {
-    newtemp(buff);
-    printf("%s\n", buff);
-    ++i;
-  }
-
-  //yyparse();
+  yyparse();
+  
   return 0; 
 }
 
