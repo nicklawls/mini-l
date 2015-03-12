@@ -327,7 +327,7 @@ statement : EXIT {
               gen2($$.code, ":", $$.begin);
               char end[8];
               gen2(end, ":", $$.after);
-              strcat($$.code, end;
+              strcat($$.code, end);
               if (verbose) {
                 printf("statement -> write var_list\n");
               }
