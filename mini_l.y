@@ -264,6 +264,7 @@ var_list : var {
             strcpy($$.list[0], $1);
             if (verbose) {
               printf("var_list -> var\n");
+              printf("%s\n", $$.list[0]);
             }
           }
          | var COMMA var_list {
@@ -278,7 +279,9 @@ var_list : var {
             if (verbose) {
               printf("var_list -> var, var_list\n");
               int j = 0;
-              while(i < $$.length) {printf("%s\n", $$.list[j]); ++j;}
+              while(i < $$.length) {
+                printf("%s\n", $$.list[j]); ++j;
+              }
             }
           }
          ;
