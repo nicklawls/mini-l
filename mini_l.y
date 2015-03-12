@@ -278,7 +278,7 @@ var_list : var {
             if (verbose) {
               printf("var_list -> var, var_list\n");
               int j = 0;
-              while(i < $$.length) {printf("%s\n", $$.list[j]); ++j}
+              while(i < $$.length) {printf("%s\n", $$.list[j]); ++j;}
             }
           }
          ;
