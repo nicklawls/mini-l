@@ -246,8 +246,8 @@ stmt_list : statement SEMICOLON {
               }
             }
           | statement SEMICOLON stmt_list {
-              strcpy($$.begin,$1.begin);
-              strcpy($$.after,$3.after);
+              strcpy($$.begin, $1.begin);
+              strcpy($$.after, $3.after);
               strcpy($$.code, $1.code);
               strcat($$.code, $3.code);
 
@@ -334,7 +334,7 @@ statement : EXIT {
             }
           | var ASSIGN expression {
               int index = symtab_get($1);
-              strcat($$.code, $3.code);
+              strcpy($$.code, $3.code);
               if (index) {
                 char assign[64];
                 if (symtab_entry_is_int(index)) {
@@ -355,7 +355,7 @@ statement : EXIT {
           | var ASSIGN bool_exp QUESTION expression COLON expression {
               
               int index = symtab_get($1);
-              strcat($$.code, $3.code);
+              strcpy($$.code, $3.code);
 
               if (index ) {
                 char optionA[8], optionB[8], assign[32];
