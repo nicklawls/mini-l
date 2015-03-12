@@ -346,6 +346,7 @@ statement : EXIT {
                   gen2(io, ".[]<", $2.list[i]); // should have dst,index
                 }
                 strcat($$.code, io);
+                ++i;
               }
 
               char end[8];
@@ -377,6 +378,7 @@ statement : EXIT {
                   gen2(io, ".[]>", $2.list[i]); // should have dst,index
                 }
                 strcat($$.code, io);
+                ++i;
               }
 
               char end[8];
