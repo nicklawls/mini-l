@@ -253,8 +253,8 @@ statement : EXIT {
                 printf("statement -> exit\n");}
                 printf("%s\n\n", $$.code);
               }
-       // | BREAK {if (verbose) {printf("statement -> break\n");}}
-       // | CONTINUE {if (verbose) {printf("statement -> continue\n");}}
+          | BREAK {if (verbose) {printf("statement -> break\n");}}
+          | CONTINUE {if (verbose) {printf("statement -> continue\n");}}
           | READ var_list {
               if (verbose) {
                 printf("statement -> read var_list\n");
