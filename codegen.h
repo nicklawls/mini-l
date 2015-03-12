@@ -28,8 +28,6 @@ static int tmpcount = 1;
 static int labelcount = 0;
 
 void newtemp(char* dst) {
-    
-    
     while(symtab_get(dst)) {
         tmpcount++;
         sprintf(dst, "t%i", tmpcount);   

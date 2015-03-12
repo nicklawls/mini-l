@@ -760,6 +760,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
 
 %%
 
+
 int main (const int argc, const char** argv) {  
   if (argc > 1) {
     yyin = fopen(argv[1], "r");
@@ -771,7 +772,14 @@ int main (const int argc, const char** argv) {
   
   symtab_init();
 
-  yyparse();
+  int i = 0;
+  char buff[34];
+  while (i < 10) {
+    newtemp(buff);
+    printf("%s\n", buff);
+  }
+
+  //yyparse();
   return 0; 
 }
 
