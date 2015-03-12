@@ -131,11 +131,11 @@ id_list : IDENT {
               printf("id_list -> ident\n");
             }
           }
-        | IDENT COMMA id_list {
+        | IDENT COMMA id_list { // something fishy happening
             $$.length = $3.length + 1;
             strcpy($$.list[0], $1);
             int i = 1;
-            while (i < $3.length) { 
+            while (i <= $3.length) { 
               // doesn't matter what order they're in, could be changed
               strcpy($$.list[i], $3.list[i-1]);
               i++;
@@ -745,7 +745,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
           
           if (verbose) {
             printf("term' -> NUMBER \n");
-            printf("%s\n\n", "$$.code");
+            printf("%s\n\n", $$.code);
           }
         }
       | L_PAREN expression R_PAREN {
