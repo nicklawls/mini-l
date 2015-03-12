@@ -332,8 +332,8 @@ statement : EXIT {
 
               char io[32];
               int i = 0;
-              while(i < $1.length) {
-                int index = symtab_get($1.list[i]);
+              while(i < $2.length) {
+                int index = symtab_get($2.list[i]);
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
@@ -341,9 +341,9 @@ statement : EXIT {
 
                 
                 if (symtab_entry_is_int(index)) {
-                  gen2(io, ".<", $1.list[i]);
+                  gen2(io, ".<", $2.list[i]);
                 } else {
-                  gen2(io, ".[]<", $1.list[i];) // should have dst,index
+                  gen2(io, ".[]<", $2.list[i];) // should have dst,index
                 }
                 strcat($$.code, io);
               }
@@ -363,7 +363,7 @@ statement : EXIT {
 
               char io[32];
               int i = 0;
-              while(i < $1.length) {
+              while(i < $2.length) {
                 int index = symtab_get($1.list[i]);
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
@@ -372,9 +372,9 @@ statement : EXIT {
 
                 
                 if (symtab_entry_is_int(index)) {
-                  gen2(io, ".>", $1.list[i]);
+                  gen2(io, ".>", $2.list[i]);
                 } else {
-                  gen2(io, ".[]>", $1.list[i];) // should have dst,index
+                  gen2(io, ".[]>", $2.list[i];) // should have dst,index
                 }
                 strcat($$.code, io);
               }
