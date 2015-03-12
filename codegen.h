@@ -39,4 +39,5 @@ void newtemp(char* dst) {
 
 void newlabel(char* dst) {
     sprintf(dst, "L%i", labelcount++);
+    printf("NEWLABEL\n");
 }
