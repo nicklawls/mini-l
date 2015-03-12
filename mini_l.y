@@ -238,7 +238,7 @@ stmt_list : statement SEMICOLON {
               strcpy($$.begin, $1.begin);
               strcpy($$.after, $1.after);
 
-              strcat($$.code, $1.code);
+              strcpy($$.code, $1.code);
 
               if (verbose) {
                 printf("stmt_list -> statement;\n");
