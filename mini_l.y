@@ -364,7 +364,7 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($1.list[i]);
+                int index = symtab_get($2.list[i]);
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
