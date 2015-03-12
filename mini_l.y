@@ -343,7 +343,7 @@ statement : EXIT {
                 if (symtab_entry_is_int(index)) {
                   gen2(io, ".<", $2.list[i]);
                 } else {
-                  gen2(io, ".[]<", $2.list[i];) // should have dst,index
+                  gen2(io, ".[]<", $2.list[i]); // should have dst,index
                 }
                 strcat($$.code, io);
               }
@@ -374,7 +374,7 @@ statement : EXIT {
                 if (symtab_entry_is_int(index)) {
                   gen2(io, ".>", $2.list[i]);
                 } else {
-                  gen2(io, ".[]>", $2.list[i];) // should have dst,index
+                  gen2(io, ".[]>", $2.list[i]); // should have dst,index
                 }
                 strcat($$.code, io);
               }
