@@ -267,8 +267,8 @@ var_list : var {
             }
           }
          | var COMMA var_list {
-            //$$.length = $3.length + 1;
-            //strcpy($$.list[0], $1);
+            $$.length = $3.length + 1;
+            strcpy($$.list[0], $1);
             //int i = 1;
             //while (i <= $3.length) { 
             //  // transfers inorder for the  id_list, should hold for this as well
