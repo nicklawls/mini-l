@@ -191,9 +191,8 @@ elif_list : ELSEIF bool_exp stmt_list {
           | ELSEIF bool_exp stmt_list ELSE stmt_list {
               newlabel($$.begin);
               newlabel($$.after);
-              printf("STUFF HERE: %s\n", $$.begin);
               gen2($$.code, ":", $$.begin);
-              strcpy($$.code, $2.code);
+              strcat($$.code, $2.code);
               char ifthen[64], elsethen[64], gotoend[64], end[64];
               gen3(ifthen, "?:=", $3.begin, $2.place);
               strcat($$.code, ifthen);
