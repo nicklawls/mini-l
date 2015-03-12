@@ -73,6 +73,7 @@ Program : PROGRAM IDENT SEMICOLON block END_PROGRAM {
           strcat($$.code, end); // concat declaration of endlabel
             if (verbose) {
               printf("Program -> program ident ; block endprogram\n");
+              printf("%s\n\n", $$.code);
             }
           }
         ;
@@ -84,6 +85,7 @@ block : decl_list BEGIN_PROGRAM stmt_list {
           strcat($$.code, $3.code);
           if (verbose) {
             printf("block -> decl_list beginprogram stmt_list\n");
+            printf("%s\n\n", $$.code);
           }
         }
       ;

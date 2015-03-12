@@ -45,7 +45,7 @@ int symtab_get(char* key) {
 
 // returns type of symtab entry specified by key, or -1 if not present
 int symtab_entry_is_int(int index) { 
-    return symtab.st[index].type;
+    return (symtab.st[index].type == 0);
 }
 
 
