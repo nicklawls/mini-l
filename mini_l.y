@@ -272,19 +272,62 @@ var_list : var {
          ;
 
 statement : EXIT {
-              gen2($$.code, ":=", "ENDLABEL");
+              newlabel($$.begin);
+              newlabel($$.after);
+              gen2($$.code, ":", $$.begin);
+              
+              char kill[8];
+              gen2(kill, ":=", "ENDLABEL");
+              strcat($$.code, kill);
+
+              char end[8];
+              gen2(end, ":", $$.after);
+              strcat($$.code, $$.end);
+              
               if (verbose) {
                 printf("statement -> exit\n");}
                 printf("%s\n\n", $$.code);
               }
-          | BREAK {if (verbose) {printf("statement -> break\n");}}
-          | CONTINUE {if (verbose) {printf("statement -> continue\n");}}
+          | BREAK {
+            newlabel($$.begin);
+            newlabel($$.after);
+            gen2($$.code, ":", $$.begin);
+            char end[8];
+            gen2(end, ":", $$.after);
+            strcat($$.code, $$.end);
+            if (verbose) {
+              printf("statement -> break\n");
+            }
+          }
+          | CONTINUE {
+              newlabel($$.begin);
+              newlabel($$.after);
+              gen2($$.code, ":", $$.begin);
+              char end[8];
+              gen2(end, ":", $$.after);
+              strcat($$.code, $$.end);
+              if (verbose) {
+                printf("statement -> continue\n");
+              }
+            }
           | READ var_list {
+              newlabel($$.begin);
+              newlabel($$.after);
+              gen2($$.code, ":", $$.begin);
+              char end[8];
+              gen2(end, ":", $$.after);
+              strcat($$.code, $$.end);
               if (verbose) {
                 printf("statement -> read var_list\n");
               }
             }
           | WRITE var_list {
+              newlabel($$.begin);
+              newlabel($$.after);
+              gen2($$.code, ":", $$.begin);
+              char end[8];
+              gen2(end, ":", $$.after);
+              strcat($$.code, $$.end);
               if (verbose) {
                 printf("statement -> write var_list\n");
               }
@@ -814,15 +857,6 @@ int main (const int argc, const char** argv) {
   }
   
   symtab_init();
-  char test[20], test2[20];
-  
-  // int i = 0;
-  // while ( i < 20) {
-  //   newlabel(test);
-  //   gen2(test2, ":", test);
-  //   printf("%s\n", test2);
-  //   ++i; 
-  // }
   
   yyparse();
   
