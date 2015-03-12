@@ -777,6 +777,7 @@ int main (const int argc, const char** argv) {
   while (i < 10) {
     newtemp(buff);
     printf("%s\n", buff);
+    ++i;
   }
 
   //yyparse();
