@@ -741,7 +741,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
       | NUMBER {
           int imm = $1;
           newtemp($$.place);
-          gen3i($$.code, "=", "$$.place", imm);
+          gen3i($$.code, "=", $$.place, imm);
           
           if (verbose) {
             printf("term' -> NUMBER \n");
