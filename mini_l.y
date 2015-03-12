@@ -794,8 +794,12 @@ int main (const int argc, const char** argv) {
   }
   
   symtab_init();
-
-  yyparse();
+  char test[20];
+  for (int i = 0; i < 20; ++i) {
+    newlabel(test);
+    printf("%s\n", test);
+  }
+  //yyparse();
   
   return 0; 
 }
