@@ -30,6 +30,7 @@ static int labelcount = 0;
 void newtemp(char* dst) {
     while(symtab_get(dst)) {
         tmpcount++;
+        printf("\n________SPINNING________\n");
         sprintf(dst, "t%i", tmpcount);   
     };
     ++tmpcount; // do the next one for later
