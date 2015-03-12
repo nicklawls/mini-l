@@ -23,9 +23,9 @@ void gen2(char* buff, char* op, char* dst) {
     snprintf(buff, 64, "%s %s\n", op, dst);
 }
 
-static int tmpcount = 1;
+int tmpcount = 0;
 
-static int labelcount = 0;
+int labelcount = 0;
 
 void newtemp(char* dst) {
     while(symtab_get(dst)) {
