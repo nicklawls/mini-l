@@ -795,14 +795,16 @@ int main (const int argc, const char** argv) {
   
   symtab_init();
   char test[20], test2[20];
-  int i = 0;
-  while ( i < 20) {
-    newlabel(test);
-    gen2(test2, ":", test);
-    printf("%s\n", test2);
-    ++i; 
-  }
-  //yyparse();
+  
+  // int i = 0;
+  // while ( i < 20) {
+  //   newlabel(test);
+  //   gen2(test2, ":", test);
+  //   printf("%s\n", test2);
+  //   ++i; 
+  // }
+  
+  yyparse();
   
   return 0; 
 }
