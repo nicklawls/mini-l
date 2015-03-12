@@ -312,7 +312,6 @@ statement : EXIT {
           | WHILE bool_exp BEGINLOOP stmt_list ENDLOOP {
               newlabel($$.begin);
               newlabel($$.after);
-
               gen2($$.code, ":", $$.begin);
               char endloop[64], loop[64], end[64];
 
@@ -333,8 +332,13 @@ statement : EXIT {
               }
             }
           | var ASSIGN expression {
+              newlabel($$.begin);
+              newlabel($$.after);
+              gen2($$.code, ":", $$.begin);
+              
+
               int index = symtab_get($1);
-              strcpy($$.code, $3.code);
+              strcat($$.code, $3.code);
               if (index) {
                 char assign[64];
                 if (symtab_entry_is_int(index)) {
@@ -345,7 +349,12 @@ statement : EXIT {
                 strcat($$.code, assign);
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
+                exit(1);
               }
+
+              char end[8];
+              gen2(end, ":", $$.after);
+              strcat($$.code, end);
               if (verbose) {
                 printf("statement -> var := expression\n");
                 printf("%s\n\n", $$.code);
@@ -357,11 +366,15 @@ statement : EXIT {
               int index = symtab_get($1);
               strcpy($$.code, $3.code);
 
+              newlabel($$.begin);
+              newlabel($$.after);
+              gen2($$.code, ":", $$.begin);
+
               if (index ) {
                 char optionA[8], optionB[8], assign[32];
                 newlabel(optionA);
                 newlabel(optionB);
-                newlabel($$.after);                
+                
                 strcat($$.code, $3.code); // compute expr
                 char ifthen[32], elsethen[32], toend[32], A[8], B[8], end[32];  
                 gen3(ifthen, "?:=", optionA, $3.place);
@@ -393,7 +406,12 @@ statement : EXIT {
 
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
+                exit(1);
               }
+
+              char end[8];
+              gen2(end, ":", $$.after);
+              strcat($$.code, end);
 
               if (verbose) {
                 printf("statement -> var := bool_exp ? expression : expression\n");
@@ -754,6 +772,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
             }
           } else {
             yyerror("attempted to retrieve a symbol not in table\n");
+            exit(1);
           }
 
           if (verbose) {
