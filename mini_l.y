@@ -260,8 +260,8 @@ stmt_list : statement SEMICOLON {
 
 
 var_list : var {
-            //$$.length = 1;
-            //strcpy($$.list[0], $1);
+            $$.length = 1;
+            strcpy($$.list[0], $1);
             if (verbose) {
               printf("var_list -> var\n");
             }
@@ -279,7 +279,7 @@ var_list : var {
               //int j = 0;
               //while(i < $$.length) {printf("%s\n", $$.list[j]); ++j}
             }
-        }
+          }
          ;
 
 statement : EXIT {
