@@ -30,11 +30,11 @@ int labelcount = 0;
 void newtemp(char* dst) {
     while(symtab_get(dst)) {
         tmpcount++;
-        printf("\n________SPINNING________\n");
-        sprintf(dst, "t%i", tmpcount);   
+        sprintf(dst, "t%i", tmpcount);
+        printf("\nNEWTEMP ATTEMPTED, %s\n", dst);   
     };
     ++tmpcount; // do the next one for later
-    printf("\nNEWTEMP: %s\n", dst);
+    printf("\nNEWTEMP APPROVED: %s\n", dst);
     symtab_put(dst, 0); // temps are always int
 }
 
