@@ -329,22 +329,62 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
+
+              char io[32];
+              int i = 0;
+              while(i < $1.length) {
+                int index = symtab_get($1.list[i]);
+                if (!index) {
+                  yyerror("attempted to retrieve a symbol not in table\n");
+                  exit(1);
+                }
+
+                
+                if (symtab_entry_is_int(index)) {
+                  gen2(io, ".<", $1.list[i]);
+                } else {
+                  gen2(io, ".[]<", $1.list[i];) // should have dst,index
+                }
+                strcat($$.code, io);
+              }
+
               char end[8];
               gen2(end, ":", $$.after);
               strcat($$.code, end);
               if (verbose) {
                 printf("statement -> read var_list\n");
+                printf("%s\n\n", $$.code);
               }
             }
           | WRITE var_list {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
+
+              char io[32];
+              int i = 0;
+              while(i < $1.length) {
+                int index = symtab_get($1.list[i]);
+                if (!index) {
+                  yyerror("attempted to retrieve a symbol not in table\n");
+                  exit(1);
+                }
+
+                
+                if (symtab_entry_is_int(index)) {
+                  gen2(io, ".>", $1.list[i]);
+                } else {
+                  gen2(io, ".[]>", $1.list[i];) // should have dst,index
+                }
+                strcat($$.code, io);
+              }
+
               char end[8];
               gen2(end, ":", $$.after);
               strcat($$.code, end);
               if (verbose) {
                 printf("statement -> write var_list\n");
+                printf("%s\n\n", $$.code);
               }
             }
           | DO BEGINLOOP stmt_list ENDLOOP WHILE bool_exp {
