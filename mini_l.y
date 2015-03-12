@@ -79,7 +79,7 @@ Program : PROGRAM IDENT SEMICOLON block END_PROGRAM {
 
 block : decl_list BEGIN_PROGRAM stmt_list {
           strcpy($$.begin $1.begin);
-          strcpy($$.after, $3.after)
+          strcpy($$.after, $3.after);
           strcat($$.code, $1.code);
           strcat($$.code, $3.code);
           if (verbose) {
@@ -98,8 +98,8 @@ decl_list : declaration SEMICOLON {
               }
             }
           | declaration SEMICOLON decl_list {
-              strcpy($$.begin, $1.begin)
-              strcpy($$.after, $3.after)
+              strcpy($$.begin, $1.begin);
+              strcpy($$.after, $3.after);
               strcat($$.code, $1.code);
               strcat($$.code, $3.code);
               if (verbose) {
