@@ -8,9 +8,9 @@
   extern int yycolumno;
   FILE* yyin;
   FILE* yyout;
-  int verbose = 1;
-  int sout = 1;
-
+  int verbose = 0;
+  int sout = 0;
+  int errcount = 0;
   char program[2048];
 %}
 
@@ -133,7 +133,6 @@ declaration : id_list COLON INTEGER {
                   strcat($$.code, declare);
                   if (symtab_put($1.list[i], 0, 0)) { // name, type int, not temp
                     yyerror("Attempted to redeclare a declared variable\n");
-                    exit(1);
                   } 
                   i++;
                 }
@@ -153,7 +152,6 @@ declaration : id_list COLON INTEGER {
                   strcat($$.code, declare);
                   if (symtab_put($1.list[i], 1, 0)) { // name, type int, not temp
                     yyerror("Attempted to redeclare a declared variable\n");
-                    exit(1);
                   } 
                   i++;
                 }
@@ -405,8 +403,7 @@ statement : EXIT {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  printf("offending symbol: %s\n", $2.list[i]);
-                  exit(1);
+                  printf("offending symbol: %s", $2.list[i]);
                 }
 
                 int comma_loc = strcspn($2.list[i], ",");
@@ -420,7 +417,6 @@ statement : EXIT {
                 } else {
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
-                    exit(1);
                   }
                   gen2(io, ".[]>", $2.list[i]); // should have dst,index
                 }
@@ -498,7 +494,6 @@ statement : EXIT {
                 } else {
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
-                    exit(1);
                   }
                   strcat($$.code, $1.code);
 
@@ -508,7 +503,6 @@ statement : EXIT {
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
                 printf("offending symbol: %s\n", $1 );
-                exit(1);
               }
 
               char end[8];
@@ -517,7 +511,6 @@ statement : EXIT {
               if (verbose) {
                 printf("statement -> var := expression\n");
                 printf("%s\n\n", $$.code);
-
               }
             }
           | var ASSIGN bool_exp QUESTION expression COLON expression {
@@ -555,7 +548,6 @@ statement : EXIT {
                 } else {
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
-                    exit(1);
                   }
                   strcat($$.code, $1.code);
                   gen3(assign, "[]=", $1.strval, $5.place);
@@ -575,7 +567,6 @@ statement : EXIT {
                 } else {
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
-                    exit(1);
                   }
                   strcat($$.code, $1.code);
                   gen3(assign, "[]=", $1.strval, $7.place);
@@ -587,7 +578,6 @@ statement : EXIT {
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
                 printf("offending symbol: %s\n", $1.strval );
-                exit(1);
               }
 
               char end[8];
@@ -955,7 +945,6 @@ termA : var { // when var becomes a term, we only want the value currently in it
           } else {
             yyerror("attempted to retrieve a symbol not in table\n");
             printf("offending symbol: %s\n", $1.strval);
-            exit(1);
           }
 
           if (verbose) {
@@ -989,7 +978,7 @@ int main (const int argc, const char** argv) {
   if (argc > 1) {
     yyin = fopen(argv[1], "r");
     if (yyin == NULL) {
-      printf("syntax: %s filename\n", argv[0]);
+      printf("Could not locate file: %s\n", argv[0]);
       exit(1);
     }
   }
@@ -1010,7 +999,10 @@ int main (const int argc, const char** argv) {
     exit(1);
   }
 
-  fprintf(yyout, "%s\n", program);
+  if (errcount == 0) {
+    fprintf(yyout, "%s\n", program);  
+  }
+  
   fclose(yyout);
   
   return 0; 
@@ -1018,4 +1010,5 @@ int main (const int argc, const char** argv) {
 
 void yyerror(const char* msg) {
     printf("** Line %d, position %d: %s\n", yylineno, yycolumno, msg);  
+    ++errcount;
 }
