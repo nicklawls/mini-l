@@ -7,8 +7,10 @@
   extern int yylineno;
   extern int yycolumno;
   FILE* yyin;
-  int verbose = 1;
+  int verbose ;
   int sout = 1;
+
+  char program[512];
 %}
 
 %union{
@@ -60,7 +62,7 @@
 
 %%
 input : Program {
-          // write to file
+          
           if (verbose) {printf("input -> Program\n");}
         }
       ;
