@@ -332,7 +332,6 @@ statement : EXIT {
             strcat($$.code, end);
 
             yyerror("Break and Continue not supported\n");
-            exit(1);
 
             if (verbose) {
               printf("statement -> break\n");
@@ -347,7 +346,6 @@ statement : EXIT {
               strcat($$.code, end);
 
               yyerror("Break and Continue not supported\n");
-              exit(1);
 
               if (verbose) {
                 printf("statement -> continue\n");
@@ -365,19 +363,21 @@ statement : EXIT {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  printf("offending symbol: %s\n", $2.list[i]);
-                  exit(1);
+                  printf("offending symbol: %s", $2.list[i]);
                 }
 
-                
+                int comma_loc = strcspn($2.list[i], ",");
+                int length = strlen($2.list[i]);
+
                 if (symtab_entry_is_int(index)) {
+                  if (length > comma_loc) {
+                    yyerror("Specified index for non-array variable\n");
+                  }  
                   gen2(io, ".<", $2.list[i]);
                 } else {
-                  int comma_loc = strcspn($2.list[i], ",");
-                  int length = strlen($2.list[i]);
+                  
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
-                    exit(1);
                   }
                   gen2(io, ".[]<", $2.list[i]); // should have dst,index
                 }
@@ -409,12 +409,15 @@ statement : EXIT {
                   exit(1);
                 }
 
+                int comma_loc = strcspn($2.list[i], ",");
+                int length = strlen($2.list[i]);
                 
                 if (symtab_entry_is_int(index)) {
+                  if (length > comma_loc) {
+                    yyerror("Specified index for non-array variable\n");
+                  }  
                   gen2(io, ".>", $2.list[i]);
                 } else {
-                  int comma_loc = strcspn($2.list[i], ",");
-                  int length = strlen($2.list[i]);
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
                     exit(1);
@@ -484,12 +487,15 @@ statement : EXIT {
               strcat($$.code, $3.code);
               if (index >= 0) {
                 char assign[64];
+                
+                int comma_loc = strcspn($2.list[i], ",");
+                int length = strlen($2.list[i]);
                 if (symtab_entry_is_int(index)) {
+                  if (length > comma_loc) {
+                    yyerror("Specified index for non-array variable\n");
+                  }  
                   gen3(assign, "=", $1.strval, $3.place);
                 } else {
-                  // check that $1 has a comma
-                  int comma_loc = strcspn($1.strval, ",");
-                  int length = strlen($1.strval);
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
                     exit(1);
@@ -538,11 +544,15 @@ statement : EXIT {
                 strcat($$.code, A);
                 strcat($$.code, $5.code);
                 
-                if(symtab_entry_is_int(index)) {
+                int comma_loc = strcspn($1.strval, ",");
+                int length = strlen($1.strval);
+                
+                if (symtab_entry_is_int(index)) {
+                  if (length > comma_loc) {
+                    yyerror("Specified index for non-array variable\n");
+                  }  
                   gen3(assign, "=", $1.strval, $5.place);
                 } else {
-                  int comma_loc = strcspn($1.strval, ",");
-                  int length = strlen($1.strval);
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
                     exit(1);
@@ -557,11 +567,12 @@ statement : EXIT {
                 gen2(B, ":", optionB);
                 strcat($$.code, B);
                 strcat($$.code, $7.code);
-                if(symtab_entry_is_int(index)) {
+                if (symtab_entry_is_int(index)) {
+                  if (length > comma_loc) {
+                    yyerror("Specified index for non-array variable\n");
+                  }  
                   gen3(assign, "=", $1.strval, $7.place);
                 } else {
-                  int comma_loc = strcspn($1.strval, ",");
-                  int length = strlen($1.strval);
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
                     exit(1);
