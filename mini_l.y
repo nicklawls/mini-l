@@ -339,6 +339,7 @@ statement : EXIT {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
+                  symtab_dump();
                   exit(1);
                 }
 
@@ -371,6 +372,7 @@ statement : EXIT {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
+                  symtab_dump();
                   exit(1);
                 }
 
@@ -452,6 +454,7 @@ statement : EXIT {
                 strcat($$.code, assign);
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
+                symtab_dump();
                 exit(1);
               }
 
@@ -509,6 +512,7 @@ statement : EXIT {
 
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
+                symtab_dump();
                 exit(1);
               }
 
@@ -875,6 +879,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
             }
           } else {
             yyerror("attempted to retrieve a symbol not in table\n");
+            symtab_dump();
             exit(1);
           }
 
