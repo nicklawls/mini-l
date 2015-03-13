@@ -334,7 +334,7 @@ statement : EXIT {
               int i = 0;
               while(i < $2.length) {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
-                if (index >= 0) {
+                if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
                 }
@@ -366,7 +366,7 @@ statement : EXIT {
               int i = 0;
               while(i < $2.length) {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
-                if (index >= 0) {
+                if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
                 }
@@ -439,7 +439,7 @@ statement : EXIT {
 
               int index = symtab_get($1); // have to delimit on comma in case of array
               strcat($$.code, $3.code);
-              if (index) {
+              if (index >= 0) {
                 char assign[64];
                 if (symtab_entry_is_int(index)) {
                   gen3(assign, "=", $1, $3.place);
