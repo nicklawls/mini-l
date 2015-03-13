@@ -510,7 +510,7 @@ statement : EXIT {
             }
           | var ASSIGN bool_exp QUESTION expression COLON expression {
               
-              int index = symtab_get($1); // have to delimit on comma in case of array
+              int index = symtab_get($1.strval); // have to delimit on comma in case of array
               strcpy($$.code, $3.code);
 
               newlabel($$.begin);
@@ -533,15 +533,16 @@ statement : EXIT {
                 strcat($$.code, $5.code);
                 
                 if(symtab_entry_is_int(index)) {
-                  gen3(assign, "=", $1, $5.place);
+                  gen3(assign, "=", $1.strval, $5.place);
                 } else {
-                  int comma_loc = strcspn($1, ",");
-                  int length = strlen($1);
+                  int comma_loc = strcspn($1.strval, ",");
+                  int length = strlen($1.strval);
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
                     exit(1);
                   }
-                  gen3(assign, "[]=", $1, $5.place);
+                  strcat($$.code, $1.code);
+                  gen3(assign, "[]=", $1.strval, $5.place);
                 }
                 
                 strcat($$.code, assign);
@@ -551,9 +552,16 @@ statement : EXIT {
                 strcat($$.code, B);
                 strcat($$.code, $7.code);
                 if(symtab_entry_is_int(index)) {
-                  gen3(assign, "=", $1, $7.place);
+                  gen3(assign, "=", $1.strval, $7.place);
                 } else {
-                  gen3(assign, "[]=", $1, $7.place);
+                  int comma_loc = strcspn($1.strval, ",");
+                  int length = strlen($1.strval);
+                  if (comma_loc == length) { 
+                    yyerror("Attempted array access without index\n");
+                    exit(1);
+                  }
+                  strcat($$.code, $1.code);
+                  gen3(assign, "[]=", $1.strval, $7.place);
                 }
                 strcat($$.code, assign);
                 gen2(end, ":", $$.after);
@@ -561,7 +569,7 @@ statement : EXIT {
 
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
-                printf("offending symbol: %s\n", $1 );
+                printf("offending symbol: %s\n", $1.strval );
                 exit(1);
               }
 
