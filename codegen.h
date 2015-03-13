@@ -41,7 +41,7 @@ void newlabel(char* dst) {
     sprintf(dst, "L%i", labelcount++);
 }
 
-void poopfaggot(char* head) {
+void declare_temps(char* head) {
     char declare[32];
     int i = 0;
     while (i < symtab.length) {
