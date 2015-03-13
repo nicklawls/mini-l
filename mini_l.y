@@ -349,10 +349,10 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($2.list[i].name); // have to delimit on comma in case of array
+                int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  printf("offending symbol: %s\n", $2.list[i].name);
+                  printf("offending symbol: %s\n", $2.list[i]);
                   exit(1);
                 }
 
@@ -382,10 +382,10 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($2.list[i].name); // have to delimit on comma in case of array
+                int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  printf("offending symbol: %s\n", $2.list[i].name );
+                  printf("offending symbol: %s\n", $2.list[i]);
                   exit(1);
                 }
 
