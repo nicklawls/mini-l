@@ -33,7 +33,7 @@ int symtab_get(char* key) {
         int comma_loc = strcspn(key, ",");
 
         strncpy(buff, key, comma_loc); // copy up to the comma
-
+        printf("BUFFER: %s\n", buff);
 
         while ( i < length) {
             if (!strcmp(buff,symtab.st[i].name)) { // if name found
