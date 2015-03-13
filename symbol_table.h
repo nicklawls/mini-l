@@ -85,7 +85,7 @@ int symtab_put(char* name, int type, int istemp) {
 void symtab_dump() {
     int i = 0;
     while (i < symtab.length) {
-        printf("Symtab at position %i: %s", i, symtab.st[i].name);
+        printf("Symtab at position %i: %s\n", i, symtab.st[i].name);
         ++i;
     }
 }
