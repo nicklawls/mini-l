@@ -49,5 +49,6 @@ void declare_temps(char* head) {
             gen2(declare, ".", symtab.st[i].name);
             strcat(head, declare);
         }
+        ++i;
     }
 }
