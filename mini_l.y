@@ -95,8 +95,9 @@ decl_list : declaration SEMICOLON {
               strcpy($$.begin, $1.begin);
               strcpy($$.after, $1.after);
               strcpy($$.code, $1.code);
-              printf("decl_list -> declaration ;\n");
+              
               if (verbose) {
+                printf("decl_list -> declaration ;\n");
                 printf("%s\n\n", $$.code);
               }
             }
