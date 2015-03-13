@@ -7,7 +7,7 @@
   extern int yylineno;
   extern int yycolumno;
   FILE* yyin;
-  int verbose = 0;
+  int verbose = 1;
   int sout = 1;
 %}
 
