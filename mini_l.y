@@ -333,7 +333,7 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($2.list[i]);
+                int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
@@ -365,7 +365,7 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($2.list[i]);
+                int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
                 if (!index) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
@@ -437,7 +437,7 @@ statement : EXIT {
               gen2($$.code, ":", $$.begin);
               
 
-              int index = symtab_get($1);
+              int index = symtab_get($1); // have to delimit on comma in case of array
               strcat($$.code, $3.code);
               if (index) {
                 char assign[64];
@@ -463,7 +463,7 @@ statement : EXIT {
             }
           | var ASSIGN bool_exp QUESTION expression COLON expression {
               
-              int index = symtab_get($1);
+              int index = symtab_get($1); // have to delimit on comma in case of array
               strcpy($$.code, $3.code);
 
               newlabel($$.begin);
