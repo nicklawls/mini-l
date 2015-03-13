@@ -1,9 +1,9 @@
 program mytest;
 
-n,m : integer;
+n, m : integer;
 
-beginprogram
-continue;
+n : array [200] of integer;
+
 read n;
 
 endprogram
