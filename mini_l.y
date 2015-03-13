@@ -928,7 +928,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
           if (index >= 0) {
             if (symtab_entry_is_int(index)) {
               // avoid making new temp since variable already declared
-              strcpy($$.place,$1);
+              strcpy($$.place,$1.strval);
               strcpy($$.code,"");
             } else {
               // newtemp to extract value at index
