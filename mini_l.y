@@ -984,26 +984,29 @@ int main (const int argc, const char** argv) {
   }
   
   symtab_init();
-  
-  yyparse(); // completed code resides in array program
+  yyparse(); // completed code resides in array 'program'
 
-  char outname[32];
-  int dot_loc = strcspn(argv[1], ".");
-  snprintf(outname, dot_loc+1, "%s", argv[1]);
-  strcat(outname, ".mil");
-  printf("%s\n", outname);
-  yyout = fopen(outname, "w");
-
-  if (yyout == NULL) {
-    printf("File Output Failed\n");
-    exit(1);
-  }
 
   if (errcount == 0) {
+    char outname[32];
+    int dot_loc = strcspn(argv[1], ".");
+    snprintf(outname, dot_loc+1, "%s", argv[1]);
+    strcat(outname, ".mil");
+    printf("%s\n", outname);
+    
+    yyout = fopen(outname, "w");    
+    
+    if (yyout == NULL) {
+      printf("File Output Failed\n");
+      fclose(yyout);
+      exit(1);
+    }
+    
     fprintf(yyout, "%s\n", program);  
+    fclose(yyout);
   }
   
-  fclose(yyout);
+  
   
   return 0; 
 }
