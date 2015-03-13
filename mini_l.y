@@ -911,9 +911,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
           }
         }
       ;
-
 %%
-
 
 int main (const int argc, const char** argv) {  
   if (argc > 1) {
@@ -932,7 +930,7 @@ int main (const int argc, const char** argv) {
   int dot_loc = strcspn(argv[1], ".");
   snprintf(outname, dot_loc+1, "%s", argv[1]);
   strcat(outname, ".mil");
-
+  printf("%s\n", outname);
   yyout = fopen(outname, "w");
   fprintf(yyout, "%s\n", program);
   fclose(yyout);
