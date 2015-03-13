@@ -35,6 +35,7 @@
   struct strlist {
     char list[64][64];
     int length;
+    char code[64];
   } strlist;
 
 }
@@ -277,6 +278,7 @@ stmt_list : statement SEMICOLON {
 var_list : var {
             $$.length = 1;
             strcpy($$.list[0], $1.strval);
+            strcpy($$.code, $1.code);
             if (verbose) {
               printf("var_list -> var\n");
               printf("%s\n", $$.list[0]);
@@ -291,6 +293,8 @@ var_list : var {
               strcpy($$.list[i], $3.list[i-1]);
               i++;
             }
+
+            strcat($$.code, $1.code);
             if (verbose) {
               printf("var_list -> var, var_list\n");
               int j = 0;
@@ -353,6 +357,7 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
+              strcat($$.code, $2.code);
 
               char io[32];
               int i = 0;
@@ -392,6 +397,7 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
+              strcat($$.code, $2.code);
 
               char io[32];
               int i = 0;
