@@ -3,7 +3,7 @@ program mytest;
 n, m : integer;
 q : array [15] of integer;
 
-break : integer;
+beginprogram
 
 read q;
 read n;
