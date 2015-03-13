@@ -12,13 +12,15 @@
   int sout = 1;
 
   char program[2048];
-  char break_to[32];
-  char continue_to[32];
 %}
 
 %union{
 	int intval;
-  char strval[16];
+  struct variable {
+    char strval[16];
+    char code[512];
+  }
+  
   struct expr {
     char place[8];
     char code[512];
