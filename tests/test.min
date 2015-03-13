@@ -2,8 +2,8 @@ program mytest;
 
 n, m : integer;
 
-n : array [200] of integer;
+beginprogram;
 
-read n;
+read q;
 
 endprogram
