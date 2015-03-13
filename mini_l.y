@@ -878,7 +878,8 @@ expression : m_exp {
 
 var : IDENT L_BRACKET expression R_BRACKET {
         // name and type will already be in symtab, pass (name,index) along as string
-        sprintf($$, "%s,%s", $1, $3.place); // id, index
+        sprintf($$.strval, "%s,%s", $1, $3.place); // id, index
+        strcpy($$.code, $3.code);
         
         if (verbose) {
           printf("var -> ident[expression]\n");
@@ -888,8 +889,8 @@ var : IDENT L_BRACKET expression R_BRACKET {
 
     | IDENT {
         // name and type will already be in symtab, pass name along
-        strcpy($$, $1);
-        
+        strcpy($$.strval, $1);
+        strcpy($$.code, "");
         if (verbose) {
           printf("var -> ident %s\n", $1);
           printf("%s\n\n",$$); // id
