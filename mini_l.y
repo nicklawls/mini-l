@@ -932,6 +932,12 @@ int main (const int argc, const char** argv) {
   strcat(outname, ".mil");
   printf("%s\n", outname);
   yyout = fopen(outname, "w");
+
+  if (yyout == NULL) {
+    printf("gotta problem\n");
+    exit(1);
+  }
+
   fprintf(yyout, "%s\n", program);
   fclose(yyout);
   
