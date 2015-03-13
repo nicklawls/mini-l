@@ -1,7 +1,7 @@
 program mytest;
 
 n, m : integer;
-q : array [15] of integer;
+q : array [0] of integer;
 
 beginprogram
 
