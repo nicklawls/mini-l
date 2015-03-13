@@ -929,7 +929,7 @@ int main (const int argc, const char** argv) {
   yyparse(); // completed code resides in array program
 
   char outname[32];
-  int doc_loc = strcspn(argv[1], ".");
+  int dot_loc = strcspn(argv[1], ".");
   snprintf(outname, dot_loc+1, "%s.mil", argv[1]);
   printf("%s\n",outname);
 
