@@ -334,7 +334,7 @@ statement : EXIT {
               int i = 0;
               while(i < $2.length) {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
-                if (!index) {
+                if (index >= 0) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
                 }
@@ -366,7 +366,7 @@ statement : EXIT {
               int i = 0;
               while(i < $2.length) {
                 int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
-                if (!index) {
+                if (index >= 0) {
                   yyerror("attempted to retrieve a symbol not in table\n");
                   exit(1);
                 }
@@ -470,7 +470,7 @@ statement : EXIT {
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
 
-              if (index ) {
+              if (index >= 0) {
                 char optionA[8], optionB[8], assign[32];
                 newlabel(optionA);
                 newlabel(optionB);
@@ -860,7 +860,7 @@ term : SUB termA {
 termA : var { // when var becomes a term, we only want the value currently in it
           int index = symtab_get($1);
           // handle both the int and array cases
-          if (index) {
+          if (index >= 0) {
             if (symtab_entry_is_int(index)) {
               // avoid making new temp since variable already declared
               strcpy($$.place,$1);

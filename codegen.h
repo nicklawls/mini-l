@@ -32,7 +32,7 @@ void newtemp(char* dst) {
     do {
         tmpcount++;
         sprintf(dst, "t%i", tmpcount);
-    } while(symtab_get(dst)); // will repeat if user defined variable collides
+    } while(symtab_get(dst) >= 0); // will repeat if user defined variable collides
     
     symtab_put(dst, 0); // temps are always int
 }

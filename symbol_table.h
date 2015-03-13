@@ -46,7 +46,7 @@ int symtab_get(char* key) {
         exit(1);
     }
 
-    return 0;
+    return -1;
 }
 
 
@@ -63,7 +63,7 @@ void symtab_put(char* name, int type ) {
     if (symtab.initialized) {
         
         int index = symtab_get(name);
-        int not_present = !index;
+        int not_present = (index == -1);
 
         if (not_present) {
             symtab.length++;       
