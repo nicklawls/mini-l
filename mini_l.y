@@ -933,7 +933,6 @@ int main (const int argc, const char** argv) {
   snprintf(outname, dot_loc+1, "%s", argv[1]);
   strcat(outname, ".mil");
 
-
   yyout = fopen(outname, "w");
   fprintf(yyout, "%s\n", program);
   fclose(yyout);
