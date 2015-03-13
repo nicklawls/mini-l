@@ -67,7 +67,7 @@ input : Program {
 
 Program : PROGRAM IDENT SEMICOLON block END_PROGRAM {
           
-          temp_inits($$.code); // declaration statements for temporaries
+          declare_temps($$.code); // declaration statements for temporaries
           
           strcat($$.code, $4.code);
           char end[16];
@@ -122,7 +122,7 @@ declaration : id_list COLON INTEGER {
                 while(i < $1.length) {
                   gen2(declare, ".", $1.list[i]);
                   strcat($$.code, declare);
-                  symtab_put($1.list[i], 0); // name, type int
+                  symtab_put($1.list[i], 0, 0); // name, type int, not temp
                   i++;
                 }
 
@@ -139,7 +139,7 @@ declaration : id_list COLON INTEGER {
                 while(i < $1.length) {
                   gen3i(declare, ".[]", $1.list[i], $5);
                   strcat($$.code, declare);
-                  symtab_put($1.list[i], 1); // name, type int array
+                  symtab_put($1.list[i], 1, 0); // name, type int array
                   i++;
                 }
 
