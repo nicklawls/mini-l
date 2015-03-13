@@ -3,7 +3,6 @@ program mytest;
 n,m : integer;
 
 beginprogram
-break;
 continue;
 read n;
 
