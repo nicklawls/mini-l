@@ -7,10 +7,11 @@
   extern int yylineno;
   extern int yycolumno;
   FILE* yyin;
+  FILE* yyout;
   int verbose ;
   int sout = 1;
 
-  char program[512];
+  char program[2048];
 %}
 
 %union{
@@ -62,7 +63,7 @@
 
 %%
 input : Program {
-          
+          strcpy(program, $1.code);
           if (verbose) {printf("input -> Program\n");}
         }
       ;
@@ -925,7 +926,13 @@ int main (const int argc, const char** argv) {
   
   symtab_init();
   
-  yyparse();
+  yyparse(); // completed code resides in array program
+
+  char outname[32];
+
+  yyout = fopen("bullshit.mil", "w");
+  fprintf(yyout, "%s", program);
+  fclose(yyout);
   
   return 0; 
 }
