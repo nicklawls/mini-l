@@ -442,8 +442,10 @@ statement : EXIT {
               newlabel($$.after);
 
               gen2($$.code, ":", $$.begin);
-              strcat($$.code, $3.code);
 
+              strcat($$.code, $3.code);
+              strcat($$.code, $6.code);
+              
               char loop[64], end[64];
               gen3(loop, "?:=", $$.begin, $6.place);
               strcat($$.code, loop);
@@ -461,6 +463,7 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
+              strcat($$.code, $2.code);
               char endloop[64], loop[64], end[64];
 
               gen3(endloop, "?:=", $$.after, $2.place);
