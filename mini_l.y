@@ -365,6 +365,12 @@ statement : EXIT {
                 if (symtab_entry_is_int(index)) {
                   gen2(io, ".<", $2.list[i]);
                 } else {
+                  int comma_loc = int comma_loc = strcspn($2.list[i], ",");
+                  int length = strlen($2.list[i]);
+                  if (comma_loc == length) { 
+                    yyerror("Attempted array access without index\n");
+                    exit(1);
+                  }
                   gen2(io, ".[]<", $2.list[i]); // should have dst,index
                 }
                 strcat($$.code, io);
@@ -398,6 +404,12 @@ statement : EXIT {
                 if (symtab_entry_is_int(index)) {
                   gen2(io, ".>", $2.list[i]);
                 } else {
+                  int comma_loc = int comma_loc = strcspn($2.list[i], ",");
+                  int length = strlen($2.list[i]);
+                  if (comma_loc == length) { 
+                    yyerror("Attempted array access without index\n");
+                    exit(1);
+                  }
                   gen2(io, ".[]>", $2.list[i]); // should have dst,index
                 }
                 strcat($$.code, io);
@@ -467,7 +479,14 @@ statement : EXIT {
                 if (symtab_entry_is_int(index)) {
                   gen3(assign, "=", $1, $3.place);
                 } else {
-                  gen3(assign, "[]=", $1, $3.place); // $1 will have dst, index
+                  // check that $1 has a comma
+                  int comma_loc = int comma_loc = strcspn($1, ",");
+                  int length = strlen($1);
+                  if (comma_loc == length) { 
+                    yyerror("Attempted array access without index\n");
+                    exit(1);
+                  }
+                  gen3(assign, "[]=", $1, $3.place); 
                 }
                 strcat($$.code, assign);
               } else {
@@ -512,6 +531,12 @@ statement : EXIT {
                 if(symtab_entry_is_int(index)) {
                   gen3(assign, "=", $1, $5.place);
                 } else {
+                  int comma_loc = int comma_loc = strcspn($1, ",");
+                  int length = strlen($1);
+                  if (comma_loc == length) { 
+                    yyerror("Attempted array access without index\n");
+                    exit(1);
+                  }
                   gen3(assign, "[]=", $1, $5.place);
                 }
                 
