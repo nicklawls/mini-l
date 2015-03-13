@@ -12,6 +12,8 @@
   int sout = 1;
 
   char program[2048];
+  char break_to[32];
+  char continue_to[32];
 %}
 
 %union{
@@ -242,7 +244,6 @@ elif_list : ELSEIF bool_exp stmt_list {
 stmt_list : statement SEMICOLON {
               strcpy($$.begin, $1.begin);
               strcpy($$.after, $1.after);
-
               strcpy($$.code, $1.code);
 
               if (verbose) {
@@ -313,9 +314,15 @@ statement : EXIT {
             newlabel($$.begin);
             newlabel($$.after);
             gen2($$.code, ":", $$.begin);
+            
+            char jump[32];
+            gen2(jump, ":=", break_to);
+            strcat($$.code, jump);
+
             char end[8];
             gen2(end, ":", $$.after);
             strcat($$.code, end);
+
             if (verbose) {
               printf("statement -> break\n");
             }
@@ -324,6 +331,11 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
+
+              char jump[32];
+              gen2(jump, ":=", break_to);
+              strcat($$.code, jump);
+
               char end[8];
               gen2(end, ":", $$.after);
               strcat($$.code, end);
@@ -411,6 +423,9 @@ statement : EXIT {
               gen2(end, ":", $$.after);
               strcat($$.code, end);
 
+              strcpy(break_to, $$.after);
+              strcpy(continue_to, $$.begin);
+
               if (verbose) {
                 printf("statement -> do beginloop stmt_list endloop while bool_exp\n");
                 printf("%s\n\n", $$.code);
@@ -434,6 +449,9 @@ statement : EXIT {
               gen2(end, ":", $$.after);
               strcat($$.code, end);
 
+              strcpy(break_to, $$.after);
+              strcpy(continue_to, $$.begin);
+              
               if (verbose) {
                 printf("statement -> while bool_exp beginloop stmt_list endloop\n");
                 printf("%s\n\n", $$.code);
@@ -934,7 +952,7 @@ int main (const int argc, const char** argv) {
   yyout = fopen(outname, "w");
 
   if (yyout == NULL) {
-    printf("gotta problem\n");
+    printf("File Output Failed\n");
     exit(1);
   }
 
