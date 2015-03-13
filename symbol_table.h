@@ -69,9 +69,9 @@ int symtab_put(char* name, int type, int istemp) {
         if (not_present) {
             printf("inserting %s\n", name);
             symtab.length++;       
-            strcpy(symtab.st[symtab.length].name, name);
-            symtab.st[symtab.length].type = type;
-            symtab.st[symtab.length].istemp = istemp;
+            strcpy(symtab.st[symtab.length-1].name, name);
+            symtab.st[symtab.length-1].type = type;
+            symtab.st[symtab.length-1].istemp = istemp;
         } else {
 
             return 1;
