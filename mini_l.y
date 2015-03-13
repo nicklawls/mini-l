@@ -301,9 +301,10 @@ statement : EXIT {
               strcat($$.code, end);
               
               if (verbose) {
-                printf("statement -> exit\n");}
+                printf("statement -> exit\n");
                 printf("%s\n\n", $$.code);
               }
+            }
           | BREAK {
             newlabel($$.begin);
             newlabel($$.after);
