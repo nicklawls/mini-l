@@ -5,7 +5,7 @@ q : array [15] of integer;
 
 beginprogram
 
-read n[2];
+read n;
 read q[4];
 
 endprogram
