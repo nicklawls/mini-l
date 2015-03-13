@@ -923,7 +923,7 @@ term : SUB termA {
      ;
 
 termA : var { // when var becomes a term, we only want the value currently in it
-          int index = symtab_get($1);
+          int index = symtab_get($1.strval);
           // handle both the int and array cases
           if (index >= 0) {
             if (symtab_entry_is_int(index)) {
@@ -933,11 +933,11 @@ termA : var { // when var becomes a term, we only want the value currently in it
             } else {
               // newtemp to extract value at index
               newtemp($$.place);
-              gen3($$.code, "=[]", $$.place, $1 ); // $1 has "name,index"
+              gen3($$.code, "=[]", $$.place, $1.strval ); // $1 has "name,index"
             }
           } else {
             yyerror("attempted to retrieve a symbol not in table\n");
-            printf("offending symbol: %s\n", $1);
+            printf("offending symbol: %s\n", $1.strval);
             exit(1);
           }
 
