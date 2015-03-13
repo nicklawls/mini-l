@@ -62,7 +62,7 @@ int symtab_entry_is_int(int index) {
 
 int symtab_put(char* name, int type, int istemp) {
     if (symtab.initialized) {
-        
+        printf("inserting %s\n", name);
         int index = symtab_get(name);
         int not_present = (index == -1);
 
