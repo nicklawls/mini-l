@@ -276,7 +276,7 @@ stmt_list : statement SEMICOLON {
 
 var_list : var {
             $$.length = 1;
-            strcpy($$.list[0], $1);
+            strcpy($$.list[0], $1.strval);
             if (verbose) {
               printf("var_list -> var\n");
               printf("%s\n", $$.list[0]);
@@ -284,7 +284,7 @@ var_list : var {
           }
          | var COMMA var_list {
             $$.length = $3.length + 1;
-            strcpy($$.list[0], $1);
+            strcpy($$.list[0], $1.strval);
             int i = 1;
             while (i <= $3.length) { 
               // transfers inorder for the  id_list, should hold for this as well
@@ -474,13 +474,12 @@ statement : EXIT {
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
               
-
-              int index = symtab_get($1); // have to delimit on comma in case of array
+              int index = symtab_get($1.strval); // have to delimit on comma in case of array
               strcat($$.code, $3.code);
               if (index >= 0) {
                 char assign[64];
                 if (symtab_entry_is_int(index)) {
-                  gen3(assign, "=", $1, $3.place);
+                  gen3(assign, "=", $1.strval, $3.place);
                 } else {
                   // check that $1 has a comma
                   int comma_loc = strcspn($1, ",");
@@ -489,7 +488,9 @@ statement : EXIT {
                     yyerror("Attempted array access without index\n");
                     exit(1);
                   }
-                  gen3(assign, "[]=", $1, $3.place); 
+                  strcat($$.code, $1.code);
+
+                  gen3(assign, "[]=", $1.strval, $3.place); 
                 }
                 strcat($$.code, assign);
               } else {
