@@ -1,6 +1,6 @@
 program mytest;
 
-n,m : integer
+n,m : integer;
 
 beginprogram
 
