@@ -16,11 +16,11 @@
 
 %union{
 	int intval;
+  char strval[64];
   struct variable {
     char strval[16];
     char code[512];
-  }
-  
+  } variable;
   struct expr {
     char place[8];
     char code[512];
@@ -59,11 +59,12 @@
 %type <expr> term termA
 %type <expr> m_exp relation_exp relation_expA
 %type <expr> relation_and_exp bool_exp 
-%type <strval> comp var  
+%type <strval> comp   
 %type <strlist> var_list id_list
 %type <stmt> statement stmt_list decl_list elif_list
 %type <stmt> block  
 %type <stmt> Program declaration
+%type <variable> var
 
 %%
 input : Program {
