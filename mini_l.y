@@ -8,7 +8,7 @@
   extern int yycolumno;
   FILE* yyin;
   FILE* yyout;
-  int verbose ;
+  int verbose = 1;
   int sout = 1;
 
   char program[2048];
