@@ -482,8 +482,8 @@ statement : EXIT {
                   gen3(assign, "=", $1.strval, $3.place);
                 } else {
                   // check that $1 has a comma
-                  int comma_loc = strcspn($1, ",");
-                  int length = strlen($1);
+                  int comma_loc = strcspn($1.strval, ",");
+                  int length = strlen($1.strval);
                   if (comma_loc == length) { 
                     yyerror("Attempted array access without index\n");
                     exit(1);
