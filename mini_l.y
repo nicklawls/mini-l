@@ -930,7 +930,7 @@ int main (const int argc, const char** argv) {
 
   char outname[32];
   int dot_loc = strcspn(argv[1], ".");
-  snprintf(outname, dot_loc+1, "%s.mil", argv[1]);
+  snprintf(outname, dot_loc+1, "%s", argv[1]);
   printf("%s\n",outname);
 
   yyout = fopen("bullshit.mil", "w");
