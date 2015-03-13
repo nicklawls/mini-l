@@ -320,10 +320,12 @@ statement : EXIT {
             newlabel($$.begin);
             newlabel($$.after);
             gen2($$.code, ":", $$.begin);
-            
             char end[8];
             gen2(end, ":", $$.after);
             strcat($$.code, end);
+
+            yyerror("Break and Continue not supported\n");
+            exit(1);
 
             if (verbose) {
               printf("statement -> break\n");
@@ -333,10 +335,13 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
-
               char end[8];
               gen2(end, ":", $$.after);
               strcat($$.code, end);
+
+              yyerror("Break and Continue not supported\n");
+              exit(1);
+
               if (verbose) {
                 printf("statement -> continue\n");
               }
