@@ -50,5 +50,4 @@ void declare_temps(char* head) {
             strcat(head, declare);
         }
     }
-
 }
