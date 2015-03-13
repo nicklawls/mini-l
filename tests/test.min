@@ -4,5 +4,6 @@ n,m : integer;
 
 beginprogram
 
+read n;
 
 endprogram
