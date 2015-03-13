@@ -2,7 +2,7 @@ program mytest;
 
 n, m : integer;
 
-beginprogram;
+beginprogram
 
 read q;
 
