@@ -148,6 +148,11 @@ declaration : id_list COLON INTEGER {
 
                 int i = 0;
                 while(i < $1.length) {
+
+                  if ($5 == 0) {
+                    yyerror("Arrays must have positive nonzero size\n");
+                  }
+
                   gen3i(declare, ".[]", $1.list[i], $5);
                   strcat($$.code, declare);
                   if (symtab_put($1.list[i], 1, 0)) { // name, type int, not temp
