@@ -8,6 +8,7 @@
 struct symbol {
     char name[64];
     int type; // 0 for int, 1 for array
+    int istemp;
 };
 
 struct symbol_table {
@@ -57,9 +58,9 @@ int symtab_entry_is_int(int index) {
 
 
 // insert functions will increment the length of the symbol table if not present
-// and will append at the original location if it is
+// return with error code if append attempted
 
-void symtab_put(char* name, int type ) {
+int symtab_put(char* name, int type, int istemp) {
     if (symtab.initialized) {
         
         int index = symtab_get(name);
@@ -69,20 +70,16 @@ void symtab_put(char* name, int type ) {
             symtab.length++;       
             strcpy(symtab.st[symtab.length].name, name);
             symtab.st[symtab.length].type = type;
-
-
+            symtab.st[symtab.length].istemp = istemp;
         } else {
-            strcpy(symtab.st[index].name, name);
-            symtab.st[index].type = type;
+            return 1;
         }
 
     } else {
         printf("symbol table uninitialized\n");
         exit(1);
     }
+    return 0;
 }
-
-// should just insert a single int at a single array index, will be called inside for loops
-
 
 #endif

@@ -66,7 +66,8 @@ input : Program {
       ;
 
 Program : PROGRAM IDENT SEMICOLON block END_PROGRAM {
-          // iterate over symbol table and generate init statements for temps
+          
+          temp_inits($$.code); // declaration statements for temporaries
           
           strcat($$.code, $4.code);
           char end[16];
