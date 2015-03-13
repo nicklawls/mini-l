@@ -34,7 +34,7 @@ int symtab_get(char* key) {
 
         snprintf(buff, comma_loc, "%s", key); // copy up to the comma
         printf("buff: %s\n", buff);
-        exit(1);
+        
         while ( i < length) {
             if (!strcmp(buff,symtab.st[i].name)) { // if name found
                 return i;
