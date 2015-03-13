@@ -488,8 +488,8 @@ statement : EXIT {
               if (index >= 0) {
                 char assign[64];
                 
-                int comma_loc = strcspn($2.list[i], ",");
-                int length = strlen($2.list[i]);
+                int comma_loc = strcspn($1.strval, ",");
+                int length = strlen($1.strval);
                 if (symtab_entry_is_int(index)) {
                   if (length > comma_loc) {
                     yyerror("Specified index for non-array variable\n");
@@ -546,7 +546,7 @@ statement : EXIT {
                 
                 int comma_loc = strcspn($1.strval, ",");
                 int length = strlen($1.strval);
-                
+
                 if (symtab_entry_is_int(index)) {
                   if (length > comma_loc) {
                     yyerror("Specified index for non-array variable\n");
