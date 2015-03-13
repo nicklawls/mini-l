@@ -127,7 +127,10 @@ declaration : id_list COLON INTEGER {
                 while(i < $1.length) {
                   gen2(declare, ".", $1.list[i]);
                   strcat($$.code, declare);
-                  symtab_put($1.list[i], 0, 0); // name, type int, not temp
+                  if (symtab_put($1.list[i], 0, 0)) { // name, type int, not temp
+                    yyerror("Attempted to redeclare a declared variable\n");
+                    exit(1);
+                  } 
                   i++;
                 }
 
@@ -144,7 +147,10 @@ declaration : id_list COLON INTEGER {
                 while(i < $1.length) {
                   gen3i(declare, ".[]", $1.list[i], $5);
                   strcat($$.code, declare);
-                  symtab_put($1.list[i], 1, 0); // name, type int array
+                  if (symtab_put($1.list[i], 1, 0)) { // name, type int, not temp
+                    yyerror("Attempted to redeclare a declared variable\n");
+                    exit(1);
+                  } 
                   i++;
                 }
 
@@ -315,10 +321,6 @@ statement : EXIT {
             newlabel($$.after);
             gen2($$.code, ":", $$.begin);
             
-            char jump[32];
-            gen2(jump, ":=", break_to);
-            strcat($$.code, jump);
-
             char end[8];
             gen2(end, ":", $$.after);
             strcat($$.code, end);
@@ -331,10 +333,6 @@ statement : EXIT {
               newlabel($$.begin);
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
-
-              char jump[32];
-              gen2(jump, ":=", break_to);
-              strcat($$.code, jump);
 
               char end[8];
               gen2(end, ":", $$.after);
@@ -351,10 +349,10 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
+                int index = symtab_get($2.list[i].name); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  symtab_dump();
+                  printf("offending symbol: %s\n", $2.list[i].name);
                   exit(1);
                 }
 
@@ -384,10 +382,10 @@ statement : EXIT {
               char io[32];
               int i = 0;
               while(i < $2.length) {
-                int index = symtab_get($2.list[i]); // have to delimit on comma in case of array
+                int index = symtab_get($2.list[i].name); // have to delimit on comma in case of array
                 if (index == -1) {
                   yyerror("attempted to retrieve a symbol not in table\n");
-                  symtab_dump();
+                  printf("offending symbol: %s\n", $2.list[i].name );
                   exit(1);
                 }
 
@@ -423,9 +421,6 @@ statement : EXIT {
               gen2(end, ":", $$.after);
               strcat($$.code, end);
 
-              strcpy(break_to, $$.after);
-              strcpy(continue_to, $$.begin);
-
               if (verbose) {
                 printf("statement -> do beginloop stmt_list endloop while bool_exp\n");
                 printf("%s\n\n", $$.code);
@@ -449,9 +444,6 @@ statement : EXIT {
               gen2(end, ":", $$.after);
               strcat($$.code, end);
 
-              strcpy(break_to, $$.after);
-              strcpy(continue_to, $$.begin);
-              
               if (verbose) {
                 printf("statement -> while bool_exp beginloop stmt_list endloop\n");
                 printf("%s\n\n", $$.code);
@@ -475,7 +467,7 @@ statement : EXIT {
                 strcat($$.code, assign);
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
-                symtab_dump();
+                printf("offending symbol: %s\n", $1 );
                 exit(1);
               }
 
@@ -511,11 +503,13 @@ statement : EXIT {
                 gen2(A, ":", optionA);
                 strcat($$.code, A);
                 strcat($$.code, $5.code);
+                
                 if(symtab_entry_is_int(index)) {
                   gen3(assign, "=", $1, $5.place);
                 } else {
                   gen3(assign, "[]=", $1, $5.place);
                 }
+                
                 strcat($$.code, assign);
                 gen2(toend, ":=", $$.after);
                 strcat($$.code, toend);
@@ -533,7 +527,7 @@ statement : EXIT {
 
               } else {
                 yyerror("attempted to retrieve a symbol not in table\n");
-                symtab_dump();
+                printf("offending symbol: %s\n", $1 );
                 exit(1);
               }
 
@@ -900,7 +894,7 @@ termA : var { // when var becomes a term, we only want the value currently in it
             }
           } else {
             yyerror("attempted to retrieve a symbol not in table\n");
-            symtab_dump();
+            printf("offending symbol: %s\n", $1);
             exit(1);
           }
 
