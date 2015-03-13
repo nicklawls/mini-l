@@ -6,6 +6,8 @@ q : array [15] of integer;
 beginprogram
 
 read n;
-read q,n;
+read m;
+
+q[n] := m;
 
 endprogram
