@@ -29,14 +29,14 @@ int symtab_get(char* key) {
         int length = symtab.length;
         int i = 0;
 
-        char buff[32];
-        int comma_loc = strcspn(key, ",");
+        //char buff[32];
+        //int comma_loc = strcspn(key, ",");
 
-        strncpy(buff, key, comma_loc); // copy up to the comma
+        //strncpy(buff, key, comma_loc); // copy up to the comma
 
 
         while ( i < length) {
-            if (!strcmp(buff,symtab.st[i].name)) { // if name found
+            if (!strcmp(key,symtab.st[i].name)) { // if name found
                 return i;
             }
             ++i;
