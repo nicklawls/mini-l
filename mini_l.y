@@ -932,9 +932,9 @@ int main (const int argc, const char** argv) {
   int dot_loc = strcspn(argv[1], ".");
   snprintf(outname, dot_loc+1, "%s", argv[1]);
   strcat(outname, ".mil");
-  printf("SHIT: %s\n",outname);
 
-  yyout = fopen("bullshit.mil", "w");
+
+  yyout = fopen(outname, "w");
   fprintf(yyout, "%s\n", program);
   fclose(yyout);
   
