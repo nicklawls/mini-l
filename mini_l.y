@@ -7,7 +7,8 @@
   extern int yylineno;
   extern int yycolumno;
   FILE* yyin;
-  int verbose = 1;
+  int verbose = 0;
+  int sout = 1;
 %}
 
 %union{
@@ -71,7 +72,7 @@ Program : PROGRAM IDENT SEMICOLON block END_PROGRAM {
           char end[16];
           gen2(end, ":", "ENDLABEL");
           strcat($$.code, end); // concat declaration of endlabel
-            if (verbose) {
+            if (verbose || sout) {
               printf("Program -> program ident ; block endprogram\n");
               printf("%s\n\n", $$.code);
             }
