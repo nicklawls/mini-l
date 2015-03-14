@@ -467,10 +467,10 @@ statement : EXIT {
               char decide[64], loopback[64], gotoend[64], end[64];
 
               // skip around gotoend if yes, fall into gotoend if no
-              gen3(decide, "?:=", $4.begin, $2.place) 
+              gen3(decide, "?:=", $4.begin, $2.place);
               strcat($$.code, decide);
 
-              gen2(gotoend, ":=" , $$.after)
+              gen2(gotoend, ":=" , $$.after);
               strcat($$.code, gotoend);
 
               strcat($4.code);
