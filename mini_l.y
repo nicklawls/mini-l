@@ -473,7 +473,7 @@ statement : EXIT {
               gen2(gotoend, ":=" , $$.after);
               strcat($$.code, gotoend);
 
-              strcat($4.code);
+              strcat($$.code, $4.code);
 
               gen2(loopback, ":=", $$.begin); // evaluate bool again
 
