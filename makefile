@@ -4,6 +4,11 @@ all: min2mil
 run: all
 	./min2mil
 
+primes: min2mil
+	./min2mil tests/primes.min
+	echo 100 > input.txt
+	./mil_run tests/primes.mil < input.txt
+
 min2mil: flexfile 
 	touch *
 	gcc -o min2mil y.tab.c lex.yy.c -lfl
