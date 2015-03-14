@@ -20,4 +20,4 @@ bisonfile: mini_l.y
 	bison -v -d --file-prefix=y mini_l.y
 
 clean:
-	rm -rf *.c *.o *.output *.tab.h min2mil
+	rm -rf *.c *.o *.output *.tab.h min2mil *.stat
