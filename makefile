@@ -4,7 +4,7 @@ all: min2mil
 run: all
 	./min2mil
 
-primes: min2mil
+primes: 
 	./min2mil tests/primes.min
 	echo 100 > input.txt
 	./mil_run tests/primes.mil < input.txt
