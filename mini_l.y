@@ -445,7 +445,7 @@ statement : EXIT {
 
               strcat($$.code, $3.code);
               strcat($$.code, $6.code);
-              
+
               char loop[64], end[64];
               gen3(loop, "?:=", $$.begin, $6.place);
               strcat($$.code, loop);
@@ -464,15 +464,18 @@ statement : EXIT {
               newlabel($$.after);
               gen2($$.code, ":", $$.begin);
               strcat($$.code, $2.code);
-              char endloop[64], loop[64], end[64];
+              char decide[64], loopback[64], gotoend[64], end[64];
 
-              gen3(endloop, "?:=", $$.after, $2.place);
-              strcat($$.code, endloop);
+              // skip around gotoend if yes, fall into gotoend if no
+              gen3(decide, "?:=", $4.begin, $2.place) 
+              strcat($$.code, decide);
 
-              strcat($$.code, $4.code);
+              gen2(gotoend, ":=" , $$.after)
+              strcat($$.code, gotoend);
 
-              gen2(loop, ":=", $$.begin); // loop back
-              strcat($$.code, loop);
+              strcat($4.code);
+
+              gen2(loopback, ":=", $$.begin); // evaluate bool again
 
               gen2(end, ":", $$.after);
               strcat($$.code, end);
